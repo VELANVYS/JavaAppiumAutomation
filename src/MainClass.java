@@ -15,4 +15,8 @@ public class MainClass {
     public String getClassString() {
         return "Hello, world";
     }
+
+    public void setClass_string(String class_string) {
+        this.class_string = class_string;
+    }
 }
