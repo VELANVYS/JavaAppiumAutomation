@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URL;
+import java.util.List;
 
 public class FirstTest {
 
@@ -166,6 +167,45 @@ public class FirstTest {
         );
     }
 
+    @Test
+    public void testSearchAndCancel() {
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find 'Search Wikipedia' input",
+                5
+        );
+
+        waitForElementAndSendKeys(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Java",
+                "Search Wikipedia field doesn't contain expected placeholder text",
+                5
+        );
+
+        List<WebElement> searchResults = waitForAllElementsPresent(
+                By.id("org.wikipedia:id/page_list_item_title"),
+                "Cannot find articles",
+                10
+        );
+
+        Assert.assertTrue(
+                "Less than 2 articles found",
+                searchResults.size() > 1
+        );
+
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_close_btn"),
+                "Cannot find X to cancel search",
+                5
+        );
+
+        waitForElementNotPresent(
+                By.id("org.wikipedia:id/page_list_item_title"),
+                "Search results are still visible",
+                5
+        );
+    }
+
 
 
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds)
@@ -218,5 +258,12 @@ public class FirstTest {
         String actualText = element.getAttribute("text");
     }
 
+    private List<WebElement> waitForAllElementsPresent(By by, String error_message, long timeoutInSeconds) {
+        WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
+        wait.withMessage(error_message + "\n");
+        return wait.until(
+                ExpectedConditions.presenceOfAllElementsLocatedBy(by)
+        );
+    }
 
 }
