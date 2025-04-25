@@ -150,6 +150,24 @@ public class FirstTest {
         );
     }
 
+    @Test
+    public void testSearchFieldPlaceholderText() {
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find 'Search Wikipedia' input",
+                5
+        );
+
+        assertElementHasText(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Search Wikipedia",
+                "Search Wikipedia field doesn't contain expected placeholder text",
+                5
+        );
+    }
+
+
+
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds)
     {
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
@@ -194,5 +212,11 @@ public class FirstTest {
         element.clear();
         return element;
     }
+
+    private void assertElementHasText(By by, String expectedText, String errorMessage, long timeoutInSeconds) {
+        WebElement element = waitForElementPresent(by, errorMessage, timeoutInSeconds);
+        String actualText = element.getAttribute("text");
+    }
+
 
 }
