@@ -206,7 +206,41 @@ public class FirstTest {
         );
     }
 
+    @Test
+    public void testSearchResultContainWord() {
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find 'Search Wikipedia' input",
+                5
+        );
+        waitForElementAndSendKeys(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Java",
+                "Search Wikipedia field doesn't contain expected placeholder text",
+                5
+        );
+        List<WebElement> searchResults = waitForAllElementsPresent(
+                By.id("org.wikipedia:id/page_list_item_title"),
+                "Cannot find articles",
+                10
+        );
 
+        for (WebElement result : searchResults) {
+            String title = "";
+            try {
+                title = result.getText();
+            } catch (Exception e) {
+                title = result.getAttribute("text");
+            }
+
+            String lowerCaseTitle = title.toLowerCase();
+
+            if (!lowerCaseTitle.contains("java")) {
+                Assert.fail("Found title without word 'Java': " + title);
+            }
+        }
+
+    }
 
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds)
     {
