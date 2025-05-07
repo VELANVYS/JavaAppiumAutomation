@@ -426,9 +426,34 @@ public class FirstTest {
                 "Cannot find " + name_of_article_2,
                 10
         );
+    }
 
+    @Test
+    public void testArticleHasTitle(){
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Cannot find Search Wikipedia input",
+                5
+        );
 
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Java",
+                "Cannot find search input",
+                5
+        );
 
+        String name_of_article = "Java (programming language)";
+        waitForElementAndClick(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_title'][@text='" + name_of_article + "']"),
+                "Cannot find 'Java (programming language)' topic searching by 'Java'",
+                10
+        );
+
+        assertElementPresent(
+                By.xpath("//android.view.ViewGroup[@resource-id='org.wikipedia:id/page_contents_container']//android.widget.TextView[1]"),
+                "Title not found in the article"
+        );
     }
 
 
@@ -832,6 +857,13 @@ public class FirstTest {
     {
         WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
         return element.getAttribute(attribute);
+    }
+
+    private void assertElementPresent(By by, String errorMessage)
+    {
+        if (driver.findElements(by).size() == 0) {
+            throw new AssertionError(errorMessage);
+        }
     }
 
 }
