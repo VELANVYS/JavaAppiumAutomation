@@ -270,6 +270,170 @@ public class FirstTest {
     }
 
     @Test
+    public void saveTwoArticlesToMyList() {
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Cannot find Search Wikipedia input",
+                5
+        );
+
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Java",
+                "Cannot find search input",
+                5
+        );
+
+        String name_of_article = "Java (programming language)";
+        waitForElementAndClick(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_title'][@text='" + name_of_article + "']"),
+                "Cannot find 'Java (programming language)' topic searching by 'Java'",
+                10
+        );
+
+
+        waitForElementPresent(
+                By.xpath("//*[@text='" + name_of_article + "']"),
+                "Cannot find article title",
+                15
+        );
+
+        waitForElementAndClick(
+                By.xpath("//*[@text='Save']"),
+                "Cannot find option to save article",
+                5
+        );
+
+        waitForElementAndClick(
+                By.xpath("//*[@text='Add to list']"),
+                "Cannot find button to add article to list",
+                5
+        );
+
+        String name_of_folder = "Learning programming";
+        waitForElementAndSendKeys(
+                By.id("org.wikipedia:id/text_input"),
+                name_of_folder,
+                "Cannot put text into article folder input",
+                5
+        );
+
+        waitForElementAndClick(
+                By.xpath("//*[@text='OK']"),
+                "Cannot press OK button",
+                5
+        );
+
+        waitForElementAndClick(
+                By.xpath("//android.widget.ImageButton[@content-desc='Navigate up']"),
+                "Cannot find button return to the search page",
+                5
+        );
+
+        waitForElementAndClear(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Cannot find search field",
+                5
+        );
+
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Appium",
+                "Cannot find search input",
+                5
+        );
+
+        String name_of_article_2 = "Automation for Apps";
+        waitForElementAndClick(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_description'][@text='" + name_of_article_2 + "']"),
+                "Cannot find " + name_of_article_2,
+                10
+        );
+
+        waitForElementPresent(
+                By.xpath("//*[@text='" + name_of_article_2 + "']"),
+                "Cannot find article title",
+                15
+        );
+
+        waitForElementAndClick(
+                By.xpath("//*[@text='Save']"),
+                "Cannot find option to save article",
+                5
+        );
+
+        waitForElementAndClick(
+                By.xpath("//*[@text='Add to list']"),
+                "Cannot find button to add article to list",
+                5
+        );
+
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/item_title_container"),
+                "Cannot add an article to the created " + name_of_folder + " list",
+                5
+        );
+
+
+        waitForElementAndClick(
+                By.xpath("//android.widget.ImageButton[@content-desc='Navigate up']"),
+                "Cannot find button return to the search page",
+                5
+        );
+
+        waitForElementAndClick(
+                By.xpath("//android.widget.ImageButton[@content-desc='Navigate up']"),
+                "Cannot find button return to the main page",
+                5
+        );
+
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/nav_tab_reading_lists"),
+                "Cannot find navigation button 'Saved'",
+                5
+        );
+
+        waitForElementAndClick(
+                By.xpath("//*[@text='" + name_of_folder + "']"),
+                "Cannot find created folder",
+                5
+        );
+
+        swipeElementToLeft(
+                By.xpath("//*[@text='" + name_of_article + "']"),
+                "Cannot find saved article"
+        );
+
+        waitForElementPresent(
+                By.xpath("//*[@text='" + name_of_folder + "']"),
+                "Cannot delete saved article",
+                5
+        );
+
+        waitForElementPresent(
+                By.xpath("//*[@text='" + name_of_article_2 + "']"),
+                "Cannot find " + name_of_article_2 + " in the saved list " + name_of_folder,
+                5
+        );
+        waitForElementAndClick(
+                By.xpath("//*[@text='" + name_of_article_2 + "']"),
+                "Cannot find " + name_of_article_2,
+                10
+        );
+
+        waitForElementPresent(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_description'][@text='" + name_of_article_2 + "']"),
+                "Cannot find " + name_of_article_2,
+                10
+        );
+
+
+
+    }
+
+
+
+    @Test
     public void testAmountOfNotEmptySearch() {
         waitForElementAndClick(
                 By.xpath("//*[contains(@text,'Search Wikipedia')]"),
@@ -531,6 +695,8 @@ public class FirstTest {
         }
 
     }
+
+
 
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds)
     {
